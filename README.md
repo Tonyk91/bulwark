@@ -47,6 +47,11 @@ A failing pull request gets a table in the job summary:
 No `CKV_AWS_18 failed`: the message is for the developer, not the platform
 team.
 
+**See it block:** [pull request #1](https://github.com/Tonyk91/bulwark/pull/1)
+adds a reports bucket that looks fine in a quick review but breaks three rules.
+It is left open on purpose; the `Bank guardrails (blocking)` check is red and
+the job summary shows the table above.
+
 ## Exceptions
 
 Sometimes a team has to ship before it can comply. In

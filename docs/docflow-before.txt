@@ -1,0 +1,10 @@
+[BANK-002] aws_s3_bucket.uploads: missing required tag "DataClassification"
+[BANK-002] aws_sqs_queue.ingest: missing required tag "DataClassification"
+[BANK-002] aws_sqs_queue.ingest_dlq: missing required tag "DataClassification"
+[BANK-002] aws_s3_bucket.uploads: missing required tag "Owner"
+[BANK-002] aws_sqs_queue.ingest: missing required tag "Owner"
+[BANK-002] aws_sqs_queue.ingest_dlq: missing required tag "Owner"
+[BANK-004] aws_s3_bucket.uploads: bucket has no server-side encryption configuration
+[BANK-007] aws_sqs_queue.ingest: queue does not declare encryption at rest
+[BANK-007] aws_sqs_queue.ingest_dlq: queue does not declare encryption at rest
+10 tests, 1 passed, 0 warnings, 9 failures, 0 exceptions

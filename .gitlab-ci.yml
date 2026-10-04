@@ -1,0 +1,44 @@
+# Same guardrails as .github/workflows/guardrails.yml, for teams on GitLab.
+stages: [test, guardrails]
+
+variables:
+  WORKLOAD: workloads/docflow
+
+policy-tests:
+  stage: test
+  image:
+    name: openpolicyagent/opa:1.21.1-static
+    entrypoint: [""]
+  script:
+    - opa fmt --fail -l policy
+    - opa check --strict policy
+    - opa test policy -v
+
+check-workload:
+  stage: guardrails
+  image:
+    name: openpolicyagent/conftest:v0.71.0
+    entrypoint: [""]
+  script:
+    - conftest test --combine --parser hcl2 -p policy --data exceptions "$WORKLOAD" -o json > results.json || true
+  artifacts:
+    paths: [results.json]
+
+report:
+  stage: guardrails
+  needs: [check-workload]
+  image: mcr.microsoft.com/powershell:latest
+  script:
+    - pwsh -NoProfile -File scripts/Write-PolicyReport.ps1 -ResultsPath results.json -ReportPath guardrails-report.md
+  artifacts:
+    when: always
+    paths: [guardrails-report.md]
+
+checkov-baseline:
+  stage: guardrails
+  image:
+    name: bridgecrew/checkov:latest
+    entrypoint: [""]
+  script:
+    - checkov -d workloads --framework terraform --compact
+  allow_failure: true

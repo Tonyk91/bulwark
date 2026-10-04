@@ -1,0 +1,14 @@
+# Time-boxed exceptions to the bank guardrails. Every entry needs an owner, a
+# reason, a risk ticket and an expiry at most 180 days ahead. When it expires
+# the pipeline fails again until the violation is fixed or the exception is
+# renewed with risk sign-off.
+exceptions:
+  - rule: BANK-005
+    resource: aws_s3_bucket.uploads
+    owner: team-docflow
+    reason: >-
+      Confidential uploads need a customer-managed KMS key. The platform's
+      shared KMS key for the ingestion domain is not provisioned yet, so the
+      bucket uses SSE-S3 in the meantime.
+    ticket: RISK-2041
+    expires: "2026-12-31"
